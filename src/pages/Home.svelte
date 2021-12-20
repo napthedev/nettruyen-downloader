@@ -17,13 +17,14 @@
 
 <form on:submit|preventDefault={handleFormSubmit}>
   <img src="/logo.png" alt="" />
-  <p class="text-h5">NetTruyen Comic Downloader</p>
+  <p style="font-size: 25px;">NetTruyen Comic Downloader</p>
   <div>
     <input
       bind:value={inputValue}
       type="text"
       class="input-outline"
       placeholder="Comic URL"
+      autofocus
     />
   </div>
   <button type="submit" class="btn-primary btn-lg">Download the comic</button>
@@ -42,10 +43,6 @@
   img {
     width: 100px;
     height: 100px;
-  }
-
-  p {
-    margin: 0;
   }
 
   input {

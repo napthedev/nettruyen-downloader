@@ -90,7 +90,7 @@
 </div>
 
 <div style="max-height: 400px; overflow-y: auto; border: 2px solid #f0f0f0">
-  {#each split(chapters, Number(groupCount || "1")) as section, index}
+  {#each split(chapters, Number(groupCount) <= 0 ? 1 : Number(groupCount)) as section, index}
     <div style="margin: 0;" class="collapse" tabindex="0">
       <div class="collapse-head">
         {comicTitle} Part {index + 1}
