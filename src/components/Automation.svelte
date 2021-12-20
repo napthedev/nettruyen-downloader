@@ -28,7 +28,7 @@
   let downloading = [];
 
   let finished = [];
-  let failed = [2];
+  let failed = [];
 
   const handleDownload = async () => {
     loading = true;
