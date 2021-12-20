@@ -25,10 +25,10 @@
 
   let loading = false;
 
-  let downloading = -1;
+  let downloading = [];
 
   let finished = [];
-  let failed = [];
+  let failed = [2];
 
   const handleDownload = async () => {
     loading = true;
@@ -39,7 +39,7 @@
       try {
         const section = sections[i];
 
-        downloading = i;
+        downloading = [...downloading, i];
 
         const images = (
           await Promise.all(section.map((chap) => getChapImages(chap.url)))
@@ -61,6 +61,30 @@
       }
     }
   };
+
+  const retryDownload = async (section, index) => {
+    try {
+      failed = failed.filter((item) => item !== index);
+      downloading = [...downloading, index];
+
+      const images = (
+        await Promise.all(section.map((chap) => getChapImages(chap.url)))
+      ).reduce((prev, current) => [...prev, ...current.images], []);
+
+      const converted = await convertToPDF(
+        images,
+        `${comicTitle} Part ${index + 1}`
+      );
+
+      console.log(converted);
+
+      forceDownload(converted.downloadUrl);
+
+      finished = [...finished, index];
+    } catch (error) {
+      failed = [...failed, index];
+    }
+  };
 </script>
 
 <TextField style="margin: 20px 0" outlined type="number" bind:value={groupCount}
@@ -79,10 +103,21 @@
           </span>
           {#if finished.includes(index)}
             <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
-          {:else if downloading === index}
+          {:else if downloading.includes(index)}
             <ProgressCircular size={25} indeterminate color="primary" />
           {:else if failed.includes(index)}
-            <i class="bx bx-x" style="color: #ff0000; font-size: 25px;" />
+            <div style="display: flex; align-items: center;">
+              <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
+              <Button
+                icon
+                on:click={(e) => {
+                  e.stopPropagation();
+                  retryDownload(section, index);
+                }}
+              >
+                <i class="bx bx-revision" style="font-size: 20px;" />
+              </Button>
+            </div>
           {/if}
         </div>
       </span>
