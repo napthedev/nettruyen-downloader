@@ -1,12 +1,4 @@
 <script>
-  import {
-    List,
-    ListGroup,
-    ListItem,
-    TextField,
-    ProgressCircular,
-    Button,
-  } from "svelte-materialify";
   import { getChapImages } from "../shared/api/chap";
   import { convertToPDF } from "../shared/api/pdf";
   import { forceDownload } from "../shared/utils";
@@ -18,8 +10,6 @@
     Array.from(new Array(Math.ceil(arr.length / size)), (_, i) =>
       arr.slice(i * size, i * size + size)
     );
-
-  let actives = [...new Array(chapters.length)].map(() => false);
 
   let groupCount = "5";
 
@@ -87,53 +77,71 @@
   };
 </script>
 
-<TextField style="margin: 20px 0" outlined type="number" bind:value={groupCount}
-  >Group count</TextField
->
+<div style="margin: 20px 0;">
+  <label for="group-count">Group Count: </label>
+  <input
+    style="outline: none; transition: 0.3s; padding: 5px 10px;"
+    id="group-count"
+    name="group-count"
+    class="input-outline"
+    bind:value={groupCount}
+    type="number"
+  />
+</div>
 
-<List class="elevation-2" style="max-height: 400px; overflow-y: auto">
+<div style="max-height: 400px; overflow-y: auto; border: 2px solid #f0f0f0">
   {#each split(chapters, Number(groupCount || "1")) as section, index}
-    <ListGroup bind:active={actives[index]}>
-      <span slot="activator">
-        <div
-          style="display: flex; align-items: center; justify-content: space-between;"
-        >
-          <span>
-            {comicTitle} Part {index + 1}
-          </span>
-          {#if finished.includes(index)}
-            <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
-          {:else if downloading.includes(index)}
-            <ProgressCircular size={25} indeterminate color="primary" />
-          {:else if failed.includes(index)}
-            <div style="display: flex; align-items: center;">
-              <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
-              <Button
-                icon
-                on:click={(e) => {
-                  e.stopPropagation();
-                  retryDownload(section, index);
-                }}
-              >
-                <i class="bx bx-revision" style="font-size: 20px;" />
-              </Button>
+    <div style="margin: 0;" class="collapse" tabindex="0">
+      <div class="collapse-head">
+        {comicTitle} Part {index + 1}
+        {#if finished.includes(index)}
+          <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
+        {:else if downloading.includes(index)}
+          <svg
+            style="height: 25px; width: 25px;"
+            class="circular-progress"
+            viewBox="25 25 50 50"
+          >
+            <circle cx="50" cy="50" r="20" />
+          </svg>
+        {:else if failed.includes(index)}
+          <div style="display: flex; align-items: center;">
+            <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
+            <i
+              on:click={(e) => {
+                e.stopPropagation();
+                retryDownload(section, index);
+              }}
+              class="bx bx-revision"
+              style="font-size: 20px;"
+            />
+          </div>
+        {/if}
+      </div>
+      <div class="collapse-content">
+        <div class="list" style="border: none; margin: 0;">
+          {#each section as item}
+            <div style="padding-left: 25px">
+              {item.title}
             </div>
-          {/if}
+          {/each}
         </div>
-      </span>
-      {#each section as item}
-        <ListItem style="padding-left: 30px">
-          {item.title}
-        </ListItem>
-      {/each}
-    </ListGroup>
+      </div>
+    </div>
   {/each}
-</List>
+</div>
 
 <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-  <Button
-    on:click={handleDownload}
-    class={loading ? "" : "primary-color"}
-    disabled={loading}>Download now</Button
+  <button on:click={handleDownload} class="btn-primary" disabled={loading}
+    >Download now</button
   >
 </div>
+
+<style>
+  .collapse-head:hover {
+    transform: scale(1) !important;
+  }
+  .collapse-head:focus {
+    transform: scale(1) !important;
+  }
+</style>

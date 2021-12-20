@@ -1,5 +1,4 @@
 <script>
-  import { List, ListItem, Button, ProgressCircular } from "svelte-materialify";
   import { getChapImages } from "../shared/api/chap";
   import { convertToPDF } from "../shared/api/pdf";
   import { forceDownload } from "../shared/utils";
@@ -39,27 +38,35 @@
   };
 </script>
 
-<List class="elevation-1" style="max-height: 400px; overflow-y: auto">
+<div class="list" style="max-height: 400px; overflow-y: auto; margin: 0;">
   {#each chapters as chap (chap.url)}
-    <ListItem on:click={() => handleClick(chap)}>
-      {chap.title}
-      <span slot="append">
-        <Button icon>
-          {#if loading.includes(chap.url)}
-            <ProgressCircular indeterminate size={20} />
-          {:else if completed.includes(chap.url)}
-            <i class="bx bx-check" style="color: #2daf2d;" />
-          {:else}
-            <i class="bx bxs-download" />
-          {/if}
-        </Button>
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;"
+      on:click={() => handleClick(chap)}
+    >
+      <span>
+        {chap.title}
       </span>
-    </ListItem>
+      {#if loading.includes(chap.url)}
+        <svg
+          style="width: 20px; height: 20px;"
+          class="circular-progress"
+          viewBox="25 25 50 50"
+        >
+          <circle cx="50" cy="50" r="20" />
+        </svg>
+      {:else if completed.includes(chap.url)}
+        <i class="bx bx-check" style="color: #2daf2d;" />
+      {:else}
+        <i class="bx bxs-download" />
+      {/if}
+    </div>
   {/each}
-</List>
+</div>
 
 <style>
   i {
     font-size: 20px;
+    cursor: pointer;
   }
 </style>

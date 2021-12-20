@@ -1,5 +1,4 @@
 <script>
-  import { Button } from "svelte-materialify";
   import { useNavigate } from "svelte-navigator";
   const navigate = useNavigate();
 </script>
@@ -7,9 +6,9 @@
 <div>
   <img src="/error.png" alt="" />
   <p class="text-h4">Something went wrong</p>
-  <Button class="blue white-text" on:click={() => navigate("/")}>
+  <button class="btn-primary" on:click={() => navigate("/")}>
     Return Home
-  </Button>
+  </button>
 </div>
 
 <style>

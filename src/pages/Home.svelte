@@ -1,37 +1,32 @@
 <script>
   import { API_URL } from "../shared/constants";
-  import { Button, TextField } from "svelte-materialify";
 
   export let navigate;
 
   let inputValue = "";
   const handleFormSubmit = () => {
-    navigate(`/${inputValue.split("/").slice(-1)[0]}`);
+    if (validateInput(inputValue)) {
+      navigate(`/${inputValue.split("/").slice(-1)[0]}`);
+    }
   };
 
-  const inputRules = [
-    (value) =>
-      value.startsWith(`${API_URL}/truyen-tranh/`) ||
-      value.startsWith(`${API_URL.replace("http", "https")}/truyen-tranh/`) ||
-      "Invalid URL",
-  ];
+  const validateInput = (value) =>
+    value.startsWith(`${API_URL}/truyen-tranh/`) ||
+    value.startsWith(`${API_URL.replace("http", "https")}/truyen-tranh/`);
 </script>
 
 <form on:submit|preventDefault={handleFormSubmit}>
   <img src="/logo.png" alt="" />
   <p class="text-h5">NetTruyen Comic Downloader</p>
   <div>
-    <TextField
-      style="width: 100vw; max-width: 350px"
-      outlined
-      autoComplete="off"
-      rules={inputRules}
-      bind:value={inputValue}>Comic URL</TextField
-    >
+    <input
+      bind:value={inputValue}
+      type="text"
+      class="input-outline"
+      placeholder="Comic URL"
+    />
   </div>
-  <Button class="blue white-text" type="submit" size="large"
-    >Download the comic</Button
-  >
+  <button type="submit" class="btn-primary btn-lg">Download the comic</button>
 </form>
 
 <style>
@@ -51,5 +46,12 @@
 
   p {
     margin: 0;
+  }
+
+  input {
+    width: 100vw;
+    max-width: 350px;
+    height: 50px;
+    padding: 0 15px;
   }
 </style>

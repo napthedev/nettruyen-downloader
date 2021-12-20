@@ -1,12 +1,4 @@
 <script>
-  import {
-    List,
-    ListItem,
-    Checkbox,
-    ListItemGroup,
-    Button,
-    ProgressCircular,
-  } from "svelte-materialify";
   import { getChapImages } from "../shared/api/chap";
   import { convertToPDF } from "../shared/api/pdf";
   import { forceDownload } from "../shared/utils";
@@ -44,31 +36,39 @@
   };
 </script>
 
-<List class="elevation-1" style="max-height: 400px; overflow-y: auto">
-  <ListItemGroup multiple bind:value={values}>
-    {#each chapters as chap, index (chap.url)}
-      <ListItem disabled={loading}>
-        <span slot="prepend">
-          <Checkbox checked={values.includes(index)} />
-        </span>
-        {chap.title}
-      </ListItem>
-    {/each}
-  </ListItemGroup>
-</List>
+<div class="list" style="max-height: 400px; overflow-y: auto; margin: 0;">
+  {#each chapters as chap, index (chap.url)}
+    <div style="display: flex;" disabled={loading}>
+      <input
+        style="flex-shrink: 0;"
+        class="input-checkbox"
+        type="checkbox"
+        id="checkbox-{index}"
+        bind:group={values}
+        value={index}
+      />
+      <label style="flex-grow: 1;" for="checkbox-{index}">{chap.title}</label>
+    </div>
+  {/each}
+</div>
 
 <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
   {#if loading}
-    <div style="display: flex; align-items: center; gap: 8px">
-      <ProgressCircular indeterminate />
-      <span style="color: #1976d2;">Loading...</span>
+    <div style="display: flex; align-items: center; gap: 10px">
+      <svg
+        style="height: 30px; width: 30px"
+        class="circular-progress"
+        viewBox="25 25 50 50"
+      >
+        <circle cx="50" cy="50" r="20" />
+      </svg>
+      <span style="color: #1e90ff;"> Downloading... </span>
     </div>
   {:else}
-    <Button
+    <button
       on:click={handleDownload}
       disabled={values.length === 0}
-      class={values.length === 0 ? "" : "primary-color"}
-      >Download selected</Button
+      class="btn-primary">Download selected</button
     >
   {/if}
 </div>

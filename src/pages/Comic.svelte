@@ -1,5 +1,4 @@
 <script>
-  import { Radio } from "svelte-materialify";
   import { getComicInfo } from "../shared/api/comic";
   import Loading from "../components/Loading.svelte";
   import Error from "../components/Error.svelte";
@@ -30,9 +29,36 @@
             <p>Download {data.title}</p>
 
             <div style="display: flex; flex-wrap: wrap; gap: 10px">
-              <Radio bind:group={section} value="manual">Manual</Radio>
-              <Radio bind:group={section} value="selected">Selected</Radio>
-              <Radio bind:group={section} value="automation">Automation</Radio>
+              <div>
+                <input
+                  bind:group={section}
+                  class="input-radio"
+                  type="radio"
+                  id="manual-radio"
+                  value="manual"
+                />
+                <label for="manual-radio">Manual</label>
+              </div>
+              <div>
+                <input
+                  bind:group={section}
+                  class="input-radio"
+                  type="radio"
+                  id="selected-radio"
+                  value="selected"
+                />
+                <label for="selected-radio">Selected</label>
+              </div>
+              <div>
+                <input
+                  bind:group={section}
+                  class="input-radio"
+                  type="radio"
+                  id="automation-radio"
+                  value="automation"
+                />
+                <label for="automation-radio">Automation</label>
+              </div>
             </div>
           </div>
         </div>
