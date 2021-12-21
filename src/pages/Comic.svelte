@@ -5,10 +5,12 @@
   import Manual from "../components/Manual.svelte";
   import Selected from "../components/Selected.svelte";
   import Automation from "../components/Automation.svelte";
+  import { useNavigate } from "svelte-navigator";
 
   export let id;
   export let section;
-  export let navigate;
+
+  const navigate = useNavigate();
 
   $: section && navigate(`/${id}/${section}`);
 
