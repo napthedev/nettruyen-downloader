@@ -96,14 +96,6 @@
         {comicTitle} Part {index + 1}
         {#if finished.includes(index)}
           <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
-        {:else if downloading.includes(index)}
-          <svg
-            style="height: 25px; width: 25px;"
-            class="circular-progress"
-            viewBox="25 25 50 50"
-          >
-            <circle cx="50" cy="50" r="20" />
-          </svg>
         {:else if failed.includes(index)}
           <div style="display: flex; align-items: center;">
             <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
@@ -116,6 +108,14 @@
               style="font-size: 20px;"
             />
           </div>
+        {:else if downloading.includes(index)}
+          <svg
+            style="height: 25px; width: 25px;"
+            class="circular-progress"
+            viewBox="25 25 50 50"
+          >
+            <circle cx="50" cy="50" r="20" />
+          </svg>
         {/if}
       </div>
       <div class="collapse-content">
