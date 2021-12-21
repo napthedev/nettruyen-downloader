@@ -95,7 +95,17 @@
       <div class="collapse-head">
         {comicTitle} Part {index + 1}
         {#if finished.includes(index)}
-          <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
+          <div style="display: flex; align-items: center;">
+            <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
+            <i
+              on:click={(e) => {
+                e.stopPropagation();
+                retryDownload(section, index);
+              }}
+              class="bx bx-revision"
+              style="font-size: 20px;"
+            />
+          </div>
         {:else if failed.includes(index)}
           <div style="display: flex; align-items: center;">
             <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
