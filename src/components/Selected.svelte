@@ -36,39 +36,39 @@
   };
 </script>
 
-<div class="list" style="max-height: 400px; overflow-y: auto; margin: 0;">
+<div class="max-h-[400px] overflow-y-auto overflow-x-hidden border">
   {#each chapters as chap, index (chap.url)}
-    <div style="display: flex;" disabled={loading}>
+    <label
+      for="checkbox-{index}"
+      class="flex items-center p-2 gap-2 border cursor-pointer"
+      disabled={loading}
+    >
       <input
-        style="flex-shrink: 0;"
-        class="input-checkbox"
+        class="flex-shrink-0"
         type="checkbox"
         id="checkbox-{index}"
         bind:group={values}
         value={index}
       />
-      <label style="flex-grow: 1;" for="checkbox-{index}">{chap.title}</label>
-    </div>
+      <span class="flex-grow" for="checkbox-{index}">{chap.title}</span>
+    </label>
   {/each}
 </div>
 
-<div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+<div class="flex justify-end mt-[20px]">
   {#if loading}
-    <div style="display: flex; align-items: center; gap: 10px">
-      <svg
-        style="height: 30px; width: 30px"
-        class="circular-progress"
-        viewBox="25 25 50 50"
-      >
-        <circle cx="50" cy="50" r="20" />
-      </svg>
-      <span style="color: #1e90ff;"> Downloading... </span>
+    <div class="flex items-center gap-[10px]">
+      <div
+        class="h-7 w-7 border-[3px] border-blue-500 border-t-transparent rounded-full animate-spin"
+      />
+      <span class="text-[#1e90ff]"> Downloading... </span>
     </div>
   {:else}
     <button
       on:click={handleDownload}
       disabled={values.length === 0}
-      class="btn-primary">Download selected</button
+      class="bg-blue-500 outline-none rounded text-white py-2 px-4 hover:brightness-110 transition duration-300 disabled:brightness-90"
+      >Download selected</button
     >
   {/if}
 </div>

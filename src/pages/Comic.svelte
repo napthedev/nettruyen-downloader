@@ -23,18 +23,21 @@
   {#await getComicInfo(id)}
     <Loading />
   {:then data}
-    <div class="container">
-      <div style="width: 100vw; max-width: 500px; margin: 20px;">
-        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-          <img src={data.cover} alt="" />
+    <div class="flex justify-center my-6">
+      <div class="w-[95vw] max-w-[500px] mx-5">
+        <div class="flex gap-[10px] mb-5">
+          <img
+            class="w-[120px] h-[160px] object-cover"
+            src={data.cover}
+            alt=""
+          />
           <div>
-            <p>Download {data.title}</p>
+            <p class="text-lg">Download {data.title}</p>
 
-            <div style="display: flex; flex-wrap: wrap; gap: 10px">
+            <div class="flex flex-wrap gap-[10px]">
               <div>
                 <input
                   bind:group={section}
-                  class="input-radio"
                   type="radio"
                   id="manual-radio"
                   value="manual"
@@ -44,7 +47,6 @@
               <div>
                 <input
                   bind:group={section}
-                  class="input-radio"
                   type="radio"
                   id="selected-radio"
                   value="selected"
@@ -54,7 +56,6 @@
               <div>
                 <input
                   bind:group={section}
-                  class="input-radio"
                   type="radio"
                   id="automation-radio"
                   value="automation"
@@ -78,16 +79,3 @@
     <Error />
   {/await}
 </main>
-
-<style>
-  .container {
-    display: flex;
-    justify-content: center;
-  }
-
-  img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-  }
-</style>

@@ -1,14 +1,5 @@
-<div>
-  <svg class="circular-progress" viewBox="25 25 50 50">
-    <circle cx="50" cy="50" r="20" />
-  </svg>
+<div class="min-h-screen flex justify-center items-center">
+  <div
+    class="h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+  />
 </div>
-
-<style>
-  div {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>

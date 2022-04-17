@@ -9,12 +9,6 @@
 
 <Router>
   <Route primary={false} path="/" component={Home} />
-  <Route primary={false} path="/:id" component={Comic} />
-  <Route primary={false} path="/:id/:section" component={Comic} />
+  <Route path="/:id" component={Comic} />
+  <Route path="/:id/:section" component={Comic} />
 </Router>
-
-<style>
-  :global(body) {
-    margin: 0;
-  }
-</style>

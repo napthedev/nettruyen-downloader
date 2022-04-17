@@ -80,58 +80,51 @@
 <div style="margin: 20px 0;">
   <label for="group-count">Group Count: </label>
   <input
-    style="outline: none; transition: 0.3s; padding: 5px 10px;"
     id="group-count"
     name="group-count"
-    class="input-outline"
+    class="outline-none border-gray-300 focus:border-blue-500 border-2 rounded-md transition duration-300 px-2"
     bind:value={groupCount}
     type="number"
   />
 </div>
 
-<div style="max-height: 400px; overflow-y: auto; border: 2px solid #f0f0f0">
+<div class="max-h-[400px] overflow-y-auto overflow-x-hidden border">
   {#each split(chapters, Number(groupCount) <= 0 ? 1 : Number(groupCount)) as section, index}
-    <div style="margin: 0;" class="collapse" tabindex="0">
-      <div class="collapse-head">
+    <div class="group m-0" tabindex="0">
+      <div class="p-2 border cursor-pointer flex justify-between items-center">
         {comicTitle} Part {index + 1}
         {#if finished.includes(index)}
-          <div style="display: flex; align-items: center;">
-            <i class="bx bx-check" style="color: #2daf2d; font-size: 25px;" />
+          <div class="flex items-center">
+            <i class="bx bx-check text-[#2daf2d] text-2xl" />
             <i
               on:click={(e) => {
                 e.stopPropagation();
                 retryDownload(section, index);
               }}
-              class="bx bx-revision"
-              style="font-size: 20px;"
+              class="bx bx-revision text-xl"
             />
           </div>
         {:else if failed.includes(index)}
-          <div style="display: flex; align-items: center;">
-            <i class="bx bx-x" style="color: #ff0000; font-size: 30px;" />
+          <div class="flex items-center">
+            <i class="bx bx-x text-red-500 text-3xl" />
             <i
               on:click={(e) => {
                 e.stopPropagation();
                 retryDownload(section, index);
               }}
-              class="bx bx-revision"
-              style="font-size: 20px;"
+              class="bx bx-revision text-xl"
             />
           </div>
         {:else if downloading.includes(index)}
-          <svg
-            style="height: 25px; width: 25px;"
-            class="circular-progress"
-            viewBox="25 25 50 50"
-          >
-            <circle cx="50" cy="50" r="20" />
-          </svg>
+          <div
+            class="h-5 w-5 border-[3px] border-blue-500 border-t-transparent rounded-full animate-spin"
+          />
         {/if}
       </div>
-      <div class="collapse-content">
-        <div class="list" style="border: none; margin: 0;">
+      <div class="group-focus-within:h-auto h-0 overflow-y-hidden">
+        <div>
           {#each section as item}
-            <div style="padding-left: 25px">
+            <div class="pl-5">
               {item.title}
             </div>
           {/each}
@@ -141,17 +134,10 @@
   {/each}
 </div>
 
-<div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-  <button on:click={handleDownload} class="btn-primary" disabled={loading}
-    >Download now</button
+<div class="flex justify-end mt-[20px]">
+  <button
+    on:click={handleDownload}
+    class="bg-blue-500 outline-none rounded text-white py-2 px-4 hover:brightness-110 transition duration-300"
+    disabled={loading}>Download now</button
   >
 </div>
-
-<style>
-  .collapse-head:hover {
-    transform: scale(1) !important;
-  }
-  .collapse-head:focus {
-    transform: scale(1) !important;
-  }
-</style>

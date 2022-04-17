@@ -38,35 +38,24 @@
   };
 </script>
 
-<div class="list" style="max-height: 400px; overflow-y: auto; margin: 0;">
+<div class="max-h-[400px] overflow-y-auto overflow-x-hidden border">
   {#each chapters as chap (chap.url)}
     <div
-      style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;"
+      class="flex justify-between items-center cursor-pointer p-2 border"
       on:click={() => handleClick(chap)}
     >
       <span>
         {chap.title}
       </span>
       {#if loading.includes(chap.url)}
-        <svg
-          style="width: 20px; height: 20px;"
-          class="circular-progress"
-          viewBox="25 25 50 50"
-        >
-          <circle cx="50" cy="50" r="20" />
-        </svg>
+        <div
+          class="h-5 w-5 border-[3px] border-blue-500 border-t-transparent rounded-full animate-spin"
+        />
       {:else if completed.includes(chap.url)}
-        <i class="bx bx-check" style="color: #2daf2d;" />
+        <i class="bx bx-check text-xl cursor-pointer text-[#2daf2d]" />
       {:else}
-        <i class="bx bxs-download" />
+        <i class="bx bxs-download text-xl cursor-pointer" />
       {/if}
     </div>
   {/each}
 </div>
-
-<style>
-  i {
-    font-size: 20px;
-    cursor: pointer;
-  }
-</style>

@@ -1,54 +1,42 @@
 <script>
-  import { API_URL } from "../shared/constants";
+  import { API_REGEX, API_URL } from "../shared/constants";
 
   export let navigate;
 
   let inputValue = "";
+  let hasError = false;
+  let errorMessage = `${API_URL}/truyen-tranh/id`;
   const handleFormSubmit = () => {
-    if (validateInput(inputValue)) {
+    if (API_REGEX.test(inputValue)) {
       navigate(`/${inputValue.split("/").slice(-1)[0]}`);
+    } else {
+      hasError = true;
     }
   };
-
-  const validateInput = (value) =>
-    value.startsWith(`${API_URL}/truyen-tranh/`) ||
-    value.startsWith(`${API_URL.replace("http", "https")}/truyen-tranh/`);
 </script>
 
-<form on:submit|preventDefault={handleFormSubmit}>
-  <img src="/logo.png" alt="" />
-  <p style="font-size: 25px;">NetTruyen Comic Downloader</p>
+<form
+  class="min-h-screen flex flex-col items-center justify-center gap-[10px]"
+  on:submit|preventDefault={handleFormSubmit}
+>
+  <img class="w-[100px] h-[100px]" src="/logo.png" alt="" />
+  <p class="text-2xl">NetTruyen Comic Downloader</p>
   <div>
     <input
       bind:value={inputValue}
       type="text"
-      class="input-outline"
+      class="outline-none border-gray-300 focus:border-blue-500 border-2 rounded-md transition duration-300 w-screen max-w-[350px] h-[50px] px-[15px]"
       placeholder="Comic URL"
+      on:change={() => (hasError = false)}
       autofocus
     />
   </div>
-  <button type="submit" class="btn-primary btn-lg">Download the comic</button>
+  {#if hasError}
+    <p class="text-red-500">{errorMessage}</p>
+  {/if}
+  <button
+    type="submit"
+    class="bg-blue-500 outline-none rounded text-white py-2 px-4 hover:brightness-110 transition duration-300"
+    >Download the comic</button
+  >
 </form>
-
-<style>
-  form {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-
-  img {
-    width: 100px;
-    height: 100px;
-  }
-
-  input {
-    width: 100vw;
-    max-width: 350px;
-    height: 50px;
-    padding: 0 15px;
-  }
-</style>
